@@ -1,8 +1,16 @@
-from .constants import (
+from .dataset import (
     TARGET_COLUMN,
+    NUMERICAL_COLUMNS,
+    CATEGORICAL_COLUMNS,
+)
+
+from .training import (
     RANDOM_STATE,
     TEST_SIZE,
     CV_FOLDS,
+)
+
+from .model import (
     MODEL_FILE_NAME,
     PREPROCESSOR_FILE_NAME,
     CSV_EXTENSION,
@@ -11,6 +19,8 @@ from .constants import (
 
 __all__ = [
     "TARGET_COLUMN",
+    "NUMERICAL_COLUMNS",
+    "CATEGORICAL_COLUMNS",
     "RANDOM_STATE",
     "TEST_SIZE",
     "CV_FOLDS",
