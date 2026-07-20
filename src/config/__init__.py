@@ -8,6 +8,7 @@ from .configuration import (
     LOG_DIR,
     MODEL_DIR,
     DataIngestionConfig,
+    DataValidationConfig,
     ModelTrainerConfig,
 )
 
@@ -21,5 +22,6 @@ __all__ = [
     "LOG_DIR",
     "MODEL_DIR",
     "DataIngestionConfig",
+    "DataValidationConfig",
     "ModelTrainerConfig",
 ]

@@ -45,5 +45,10 @@ class DataIngestionConfig:
 class ModelTrainerConfig:
     trained_model_path: Path = MODEL_DIR / "model.pkl"
 
+@dataclass(frozen=True)
+class DataValidationConfig:
+    raw_data_path: Path = RAW_DATA_DIR / "laptop_prices.csv"
+    schema_path: Path = PROJECT_ROOT / "config" / "schema.yaml"
+
 
 logger.info("Project configuration initialized successfully.")

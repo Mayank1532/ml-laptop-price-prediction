@@ -1,0 +1,24 @@
+columns:
+  Company: object
+  Product: object
+  TypeName: object
+  Inches: float64
+  Ram: int64
+  OS: object
+  Weight: float64
+  Price_euros: float64
+  Screen: object
+  ScreenW: int64
+  ScreenH: int64
+  Touchscreen: int64
+  IPSpanel: int64
+  RetinaDisplay: int64
+  CPU_company: object
+  CPU_freq: float64
+  CPU_model: object
+  PrimaryStorage: int64
+  SecondaryStorage: int64
+  PrimaryStorageType: object
+  SecondaryStorageType: object
+  GPU_company: object
+  GPU_model: object
