@@ -1,5 +1,9 @@
 import sys
 from typing import Any
+import pandas as pd
+import mlflow.sklearn
+from mlflow.models import infer_signature
+from src.mlflow.mlflow_manager import MLflowManager
 from src.entity import (
     DataTransformationArtifact,
     ModelTrainerArtifact,
@@ -403,46 +407,80 @@ class ModelTrainer:
             )
 
             ############################################################
-            # Save Best Model
-            ############################################################
+# Save Best Model
+############################################################
 
             self._save_model(best_model)
 
-            ############################################################
-            # Build Artifact
-            ############################################################
+############################################################
+# MLflow Logging
+############################################################
+
+            mlflow_manager = MLflowManager("Laptop Price Prediction")
+
+            with mlflow_manager.start_run(run_name=best_model_name):
+
+                mlflow_manager.log_params(
+        {
+            "model": best_model_name,
+        }
+    )
+
+            mlflow_manager.log_metrics(
+        {
+            "train_r2": train_r2,
+            "test_r2": best_result.r2,
+            "mae": best_result.mae,
+            "rmse": best_result.rmse,
+        }
+    )
+          # ===========================
+                # Log model to MLflow
+                # ===========================
+
+            input_example = pd.DataFrame(
+                    artifact.X_train[:5],
+                    
+                )
+
+            signature = infer_signature(
+                    artifact.X_train,
+                    train_predictions,
+                )
+
+            mlflow.sklearn.log_model(
+                    sk_model=best_model,
+                    name="model",
+                    signature=signature,
+                    input_example=input_example,
+                )
+
+            run = mlflow.active_run()
+
+            mlflow_manager.register_model(
+    model_uri=f"runs:/{run.info.run_id}/model",
+    model_name="LaptopPricePrediction",
+)
+
+############################################################
+# Build Artifact
+############################################################
 
             trainer_artifact = ModelTrainerArtifact(
-                model_path=self.config.trained_model_path,
-                model_name=best_model_name,
-                train_r2_score=train_r2,
-                test_r2_score=best_result.r2,
-            )
+    model_path=self.config.trained_model_path,
+    model_name=best_model_name,
+    train_r2_score=train_r2,
+    test_r2_score=best_result.r2,
+)
 
-            logger.info(
-                "Training completed successfully."
-            )
-
-            logger.info(
-                "Best Model : %s",
-                best_model_name,
-            )
-
-            logger.info(
-                "Train R² : %.4f",
-                train_r2,
-            )
-
-            logger.info(
-    "Test R² : %.4f",
-    best_result.r2,
-),
-            
-
+            logger.info("Training completed successfully.")
+            logger.info("Best Model : %s", best_model_name)
+            logger.info("Train R² : %.4f", train_r2)
+            logger.info("Test R² : %.4f", best_result.r2)
             logger.info("=" * 100)
 
             return trainer_artifact
-
+            
         except Exception as e:
             logger.exception(
                 "Model training pipeline failed."

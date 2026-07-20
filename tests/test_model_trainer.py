@@ -128,6 +128,8 @@ def test_initiate_model_trainer():
     trainer_artifact = trainer.initiate_model_trainer(
         transformation_artifact
     )
+    
+    print("Training completed")
 
     assert trainer_artifact.model_path.exists()
     assert trainer_artifact.model_name != ""
