@@ -12,6 +12,8 @@ from .paths import (
 from .ingestion import DataIngestionConfig
 from .validation import DataValidationConfig
 from .trainer import ModelTrainerConfig
+from .transformation import DataTransformationConfig
+
 
 __all__ = [
     "PROJECT_ROOT",
@@ -25,4 +27,5 @@ __all__ = [
     "DataIngestionConfig",
     "DataValidationConfig",
     "ModelTrainerConfig",
+    "DataTransformationConfig",
 ]
