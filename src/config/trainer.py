@@ -2,7 +2,14 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from .paths import MODEL_DIR
+from src.constants import MODEL_FILE_NAME, RANDOM_STATE
+
 
 @dataclass(frozen=True)
 class ModelTrainerConfig:
-    trained_model_path: Path = MODEL_DIR / "model.pkl"
+    """
+    Configuration for model training.
+    """
+
+    trained_model_path: Path = MODEL_DIR / MODEL_FILE_NAME
+    random_state: int = RANDOM_STATE
