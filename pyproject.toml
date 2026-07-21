@@ -29,6 +29,23 @@ profile = "black"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
+
+[tool.coverage.run]
+branch = true
+source = ["src", "app"]
+
+omit = [
+    "tests/*",
+    "artifacts/*",
+    "logs/*",
+    "notebooks/*",
+    "**/__init__.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+
 [tool.mypy]
 python_version = "3.12"
 ignore_missing_imports = true
