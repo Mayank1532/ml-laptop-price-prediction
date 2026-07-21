@@ -1,7 +1,7 @@
 import sys
+from types import ModuleType
 
-
-def error_message_detail(error, error_detail: sys):
+def error_message_detail(error, error_detail: ModuleType):
     """
     Returns a detailed error message including file name and line number.
     """
@@ -21,7 +21,7 @@ class CustomException(Exception):
     Custom exception class for the project.
     """
 
-    def __init__(self, error_message, error_detail: sys):
+    def __init__(self, error_message, error_detail: ModuleType):
         super().__init__(error_message)
         self.error_message = error_message_detail(error_message, error_detail)
 

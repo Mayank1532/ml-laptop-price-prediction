@@ -1,6 +1,6 @@
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import yaml
 
@@ -16,13 +16,10 @@ def read_yaml(file_path: Path | str) -> dict[str, Any]:
         file_path = Path(file_path)
 
         logger.info(f"Reading YAML file: {file_path}")
-
         with open(file_path, encoding="utf-8") as yaml_file:
-            content = yaml.safe_load(yaml_file)
+            content = yaml.safe_load(yaml_file) or {}
 
-        logger.info("YAML file read successfully.")
-
-        return content
+        return cast(dict[str, Any], content)
 
     except Exception as e:
         logger.exception("Failed to read YAML file.")

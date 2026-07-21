@@ -402,6 +402,7 @@ class ModelTrainer:
             mlflow_manager = MLflowManager("Laptop Price Prediction")
 
             with mlflow_manager.start_run(run_name=best_model_name):
+                
 
                 mlflow_manager.log_params(
                     {
@@ -438,6 +439,7 @@ class ModelTrainer:
             )
 
             run = mlflow.active_run()
+            assert run is not None
 
             mlflow_manager.register_model(
                 model_uri=f"runs:/{run.info.run_id}/model",
