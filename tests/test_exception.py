@@ -17,7 +17,7 @@ def test_exception():
 
         except Exception as e:
             logger.exception("Exception captured successfully.")
-            raise CustomException(e, sys)
+            raise CustomException(e, sys) from e
 
     logger.info("Exception Module Test Completed Successfully")
     logger.info("=" * 60)

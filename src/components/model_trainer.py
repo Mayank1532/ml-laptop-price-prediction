@@ -1,15 +1,9 @@
 import sys
 from typing import Any
-import pandas as pd
-import mlflow.sklearn
-from mlflow.models import infer_signature
-from src.mlflow.mlflow_manager import MLflowManager
-from src.entity import (
-    DataTransformationArtifact,
-    ModelTrainerArtifact,
-    ModelEvaluationResult,
-)
 
+import mlflow.sklearn
+import pandas as pd
+from mlflow.models import infer_signature
 from sklearn.ensemble import (
     GradientBoostingRegressor,
     RandomForestRegressor,
@@ -28,9 +22,14 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeRegressor
 
 from src.config import ModelTrainerConfig
-
+from src.entity import (
+    DataTransformationArtifact,
+    ModelEvaluationResult,
+    ModelTrainerArtifact,
+)
 from src.exception import CustomException
 from src.logger import logger
+from src.mlflow.mlflow_manager import MLflowManager
 from src.utils import save_pickle
 
 
@@ -56,21 +55,16 @@ class ModelTrainer:
 
             return {
                 "Linear Regression": LinearRegression(),
-
                 "Ridge": Ridge(),
-
                 "Lasso": Lasso(
-    max_iter=10000,
-),
-
+                    max_iter=10000,
+                ),
                 "Decision Tree": DecisionTreeRegressor(
                     random_state=self.config.random_state,
                 ),
-
                 "Random Forest": RandomForestRegressor(
                     random_state=self.config.random_state,
                 ),
-
                 "Gradient Boosting": GradientBoostingRegressor(
                     random_state=self.config.random_state,
                 ),
@@ -78,7 +72,7 @@ class ModelTrainer:
 
         except Exception as e:
             logger.exception("Model initialization failed.")
-            raise CustomException(e, sys)
+            raise CustomException(e, sys) from e
 
     ###########################################################################
     # Hyperparameters
@@ -90,28 +84,22 @@ class ModelTrainer:
         """
 
         return {
-
             "Linear Regression": {},
-
             "Ridge": {
                 "alpha": [0.1, 1.0, 10.0],
             },
-
             "Lasso": {
                 "alpha": [0.001, 0.01, 0.1, 1.0],
             },
-
             "Decision Tree": {
                 "max_depth": [5, 10, 20],
                 "min_samples_split": [2, 5, 10],
             },
-
             "Random Forest": {
                 "n_estimators": [100, 200],
                 "max_depth": [10, 20],
                 "min_samples_split": [2, 5],
             },
-
             "Gradient Boosting": {
                 "learning_rate": [0.01, 0.1],
                 "n_estimators": [100, 200],
@@ -181,10 +169,9 @@ class ModelTrainer:
             return grid_search.best_estimator_
 
         except Exception as e:
-            logger.exception(
-                "Hyperparameter tuning failed."
-            )
-            raise CustomException(e, sys)
+            logger.exception("Hyperparameter tuning failed.")
+            raise CustomException(e, sys) from e
+
     ###########################################################################
     # Model Evaluation
     ###########################################################################
@@ -234,15 +221,15 @@ class ModelTrainer:
 
                 rmse = root_mean_squared_error(
                     y_test,
-                    predictions, 
+                    predictions,
                 )
 
                 evaluation_results[model_name] = ModelEvaluationResult(
-    model=tuned_model,
-    r2=r2,
-    mae=mae,
-    rmse=rmse,
-)
+                    model=tuned_model,
+                    r2=r2,
+                    mae=mae,
+                    rmse=rmse,
+                )
                 logger.info(
                     "%s | R²: %.4f | MAE: %.4f | RMSE: %.4f",
                     model_name,
@@ -258,17 +245,16 @@ class ModelTrainer:
 
         except Exception as e:
             logger.exception("Model evaluation failed.")
-            raise CustomException(e, sys)
+            raise CustomException(e, sys) from e
 
     ###########################################################################
     # Best Model Selection
     ###########################################################################
 
-
     def _select_best_model(
-    self,
-    evaluation_results: dict[str, ModelEvaluationResult],
-) -> tuple[str, Any, ModelEvaluationResult]:
+        self,
+        evaluation_results: dict[str, ModelEvaluationResult],
+    ) -> tuple[str, Any, ModelEvaluationResult]:
         """
         Select the best model using R² score.
         """
@@ -278,19 +264,18 @@ class ModelTrainer:
             logger.info("Selecting best model...")
 
             best_model_name = max(
-    evaluation_results,
-    key=lambda x: evaluation_results[x].r2,
-)
-            
+                evaluation_results,
+                key=lambda x: evaluation_results[x].r2,
+            )
 
             best_result = evaluation_results[best_model_name]
 
             best_model = best_result.model
             best_metrics = {
-    "r2": best_result.r2,
-    "mae": best_result.mae,
-    "rmse": best_result.rmse,
-}
+                "r2": best_result.r2,
+                "mae": best_result.mae,
+                "rmse": best_result.rmse,
+            }
 
             logger.info(
                 "Best Model : %s",
@@ -303,19 +288,17 @@ class ModelTrainer:
             )
 
             return (
-    best_model_name,
-    best_model,
-    best_result,
-)
-            
+                best_model_name,
+                best_model,
+                best_result,
+            )
 
         except Exception as e:
-            logger.exception(
-                "Best model selection failed."
-            )
-            raise CustomException(e, sys)
+            logger.exception("Best model selection failed.")
+            raise CustomException(e, sys) from e
 
-                ###########################################################################
+            ###########################################################################
+
     # Save Model
     ###########################################################################
 
@@ -343,7 +326,7 @@ class ModelTrainer:
 
         except Exception as e:
             logger.exception("Failed to save model.")
-            raise CustomException(e, sys)
+            raise CustomException(e, sys) from e
 
     ###########################################################################
     # Model Training Pipeline
@@ -387,8 +370,8 @@ class ModelTrainer:
 
             (
                 best_model_name,
-    best_model,
-    best_result,
+                best_model,
+                best_result,
             ) = self._select_best_model(
                 evaluation_results=evaluation_results,
             )
@@ -407,71 +390,70 @@ class ModelTrainer:
             )
 
             ############################################################
-# Save Best Model
-############################################################
+            # Save Best Model
+            ############################################################
 
             self._save_model(best_model)
 
-############################################################
-# MLflow Logging
-############################################################
+            ############################################################
+            # MLflow Logging
+            ############################################################
 
             mlflow_manager = MLflowManager("Laptop Price Prediction")
 
             with mlflow_manager.start_run(run_name=best_model_name):
 
                 mlflow_manager.log_params(
-        {
-            "model": best_model_name,
-        }
-    )
+                    {
+                        "model": best_model_name,
+                    }
+                )
 
             mlflow_manager.log_metrics(
-        {
-            "train_r2": train_r2,
-            "test_r2": best_result.r2,
-            "mae": best_result.mae,
-            "rmse": best_result.rmse,
-        }
-    )
-          # ===========================
-                # Log model to MLflow
-                # ===========================
+                {
+                    "train_r2": train_r2,
+                    "test_r2": best_result.r2,
+                    "mae": best_result.mae,
+                    "rmse": best_result.rmse,
+                }
+            )
+            # ===========================
+            # Log model to MLflow
+            # ===========================
 
             input_example = pd.DataFrame(
-                    artifact.X_train[:5],
-                    
-                )
+                artifact.X_train[:5],
+            )
 
             signature = infer_signature(
-                    artifact.X_train,
-                    train_predictions,
-                )
+                artifact.X_train,
+                train_predictions,
+            )
 
             mlflow.sklearn.log_model(
-                    sk_model=best_model,
-                    name="model",
-                    signature=signature,
-                    input_example=input_example,
-                )
+                sk_model=best_model,
+                name="model",
+                signature=signature,
+                input_example=input_example,
+            )
 
             run = mlflow.active_run()
 
             mlflow_manager.register_model(
-    model_uri=f"runs:/{run.info.run_id}/model",
-    model_name="LaptopPricePrediction",
-)
+                model_uri=f"runs:/{run.info.run_id}/model",
+                model_name="LaptopPricePrediction",
+            )
 
-############################################################
-# Build Artifact
-############################################################
+            ############################################################
+            # Build Artifact
+            ############################################################
 
             trainer_artifact = ModelTrainerArtifact(
-    model_path=self.config.trained_model_path,
-    model_name=best_model_name,
-    train_r2_score=train_r2,
-    test_r2_score=best_result.r2,
-)
+                model_path=self.config.trained_model_path,
+                model_name=best_model_name,
+                train_r2_score=train_r2,
+                test_r2_score=best_result.r2,
+            )
 
             logger.info("Training completed successfully.")
             logger.info("Best Model : %s", best_model_name)
@@ -480,9 +462,7 @@ class ModelTrainer:
             logger.info("=" * 100)
 
             return trainer_artifact
-            
+
         except Exception as e:
-            logger.exception(
-                "Model training pipeline failed."
-            )
-            raise CustomException(e, sys)
+            logger.exception("Model training pipeline failed.")
+            raise CustomException(e, sys) from e

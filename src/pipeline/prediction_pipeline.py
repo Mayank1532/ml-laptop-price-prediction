@@ -1,7 +1,7 @@
 import sys
+from dataclasses import dataclass
 
 import pandas as pd
-from dataclasses import dataclass
 
 from src.config import (
     DataTransformationConfig,
@@ -18,9 +18,7 @@ class PredictPipeline:
         try:
             logger.info("Loading trained model...")
 
-            self.model = load_pickle(
-                ModelTrainerConfig().trained_model_path
-            )
+            self.model = load_pickle(ModelTrainerConfig().trained_model_path)
 
             logger.info("Loading preprocessor...")
 
@@ -28,15 +26,11 @@ class PredictPipeline:
                 DataTransformationConfig().preprocessor_path
             )
 
-            logger.info(
-                "Prediction pipeline initialized successfully."
-            )
+            logger.info("Prediction pipeline initialized successfully.")
 
         except Exception as e:
-            logger.exception(
-                "Failed to initialize prediction pipeline."
-            )
-            raise CustomException(e, sys)
+            logger.exception("Failed to initialize prediction pipeline.")
+            raise CustomException(e, sys) from e
 
     def predict(
         self,
@@ -45,19 +39,16 @@ class PredictPipeline:
         try:
             logger.info("Starting prediction...")
 
-            transformed_features = self.preprocessor.transform(
-                features
-            )
+            transformed_features = self.preprocessor.transform(features)
 
-            predictions = self.model.predict(
-                transformed_features
-            )
+            predictions = self.model.predict(transformed_features)
 
             return predictions
 
         except Exception as e:
             logger.exception("Prediction failed.")
-            raise CustomException(e, sys)
+            raise CustomException(e, sys) from e
+
 
 @dataclass
 class CustomData:
@@ -123,4 +114,4 @@ class CustomData:
 
         except Exception as e:
             logger.exception("Failed to create DataFrame.")
-            raise CustomException(e, sys)
+            raise CustomException(e, sys) from e

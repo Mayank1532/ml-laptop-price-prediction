@@ -13,13 +13,9 @@ app.include_router(prediction_router)
 
 @app.get("/")
 def root():
-    return {
-        "message": "Laptop Price Prediction API is running!"
-    }
+    return {"message": "Laptop Price Prediction API is running!"}
 
 
 @app.get("/health")
 def health():
-    return {
-        "status": "healthy"
-    }
+    return {"status": "healthy"}

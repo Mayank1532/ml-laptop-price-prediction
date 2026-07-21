@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from src.components import DataTransformation
 from src.config import DataTransformationConfig
 from src.entity import DataTransformationArtifact
@@ -67,8 +69,6 @@ def test_transform_features():
 
     assert X_train_processed.shape[0] == len(X_train)
     assert X_test_processed.shape[0] == len(X_test)
-
-from pathlib import Path
 
 
 def test_save_preprocessor():

@@ -17,7 +17,7 @@ def read_yaml(file_path: Path | str) -> dict[str, Any]:
 
         logger.info(f"Reading YAML file: {file_path}")
 
-        with open(file_path, "r", encoding="utf-8") as yaml_file:
+        with open(file_path, encoding="utf-8") as yaml_file:
             content = yaml.safe_load(yaml_file)
 
         logger.info("YAML file read successfully.")
@@ -26,7 +26,7 @@ def read_yaml(file_path: Path | str) -> dict[str, Any]:
 
     except Exception as e:
         logger.exception("Failed to read YAML file.")
-        raise CustomException(e, sys)
+        raise CustomException(e, sys) from e
 
 
 def write_yaml(file_path: Path | str, data: dict[str, Any]) -> None:
@@ -52,4 +52,4 @@ def write_yaml(file_path: Path | str, data: dict[str, Any]) -> None:
 
     except Exception as e:
         logger.exception("Failed to write YAML file.")
-        raise CustomException(e, sys)
+        raise CustomException(e, sys) from e

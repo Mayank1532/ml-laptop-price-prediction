@@ -1,20 +1,18 @@
 from .dataset import (
-    TARGET_COLUMN,
-    NUMERICAL_COLUMNS,
     CATEGORICAL_COLUMNS,
+    NUMERICAL_COLUMNS,
+    TARGET_COLUMN,
 )
-
+from .model import (
+    CSV_EXTENSION,
+    MODEL_FILE_NAME,
+    PKL_EXTENSION,
+    PREPROCESSOR_FILE_NAME,
+)
 from .training import (
+    CV_FOLDS,
     RANDOM_STATE,
     TEST_SIZE,
-    CV_FOLDS,
-)
-
-from .model import (
-    MODEL_FILE_NAME,
-    PREPROCESSOR_FILE_NAME,
-    CSV_EXTENSION,
-    PKL_EXTENSION,
 )
 
 __all__ = [

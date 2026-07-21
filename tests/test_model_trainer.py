@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from sklearn.linear_model import LinearRegression
 
 from src.components import DataTransformation, ModelTrainer
@@ -59,15 +57,11 @@ def test_evaluate_models():
 
 
 def test_select_best_model():
-    transformer = DataTransformation(
-        DataTransformationConfig()
-    )
+    transformer = DataTransformation(DataTransformationConfig())
 
     artifact = transformer.initiate_data_transformation()
 
-    trainer = ModelTrainer(
-        ModelTrainerConfig()
-    )
+    trainer = ModelTrainer(ModelTrainerConfig())
 
     models = trainer._get_models()
 
@@ -113,22 +107,14 @@ def test_save_model(tmp_path):
 
 
 def test_initiate_model_trainer():
-    transformer = DataTransformation(
-        DataTransformationConfig()
-    )
+    transformer = DataTransformation(DataTransformationConfig())
 
-    transformation_artifact = (
-        transformer.initiate_data_transformation()
-    )
+    transformation_artifact = transformer.initiate_data_transformation()
 
-    trainer = ModelTrainer(
-        ModelTrainerConfig()
-    )
+    trainer = ModelTrainer(ModelTrainerConfig())
 
-    trainer_artifact = trainer.initiate_model_trainer(
-        transformation_artifact
-    )
-    
+    trainer_artifact = trainer.initiate_model_trainer(transformation_artifact)
+
     print("Training completed")
 
     assert trainer_artifact.model_path.exists()

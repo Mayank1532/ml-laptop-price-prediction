@@ -1,4 +1,6 @@
-from src.pipeline.prediction_pipeline import PredictPipeline
+import pandas as pd
+
+from src.pipeline.prediction_pipeline import CustomData, PredictPipeline
 
 
 def test_prediction_pipeline_initialization():
@@ -6,10 +8,6 @@ def test_prediction_pipeline_initialization():
 
     assert pipeline.model is not None
     assert pipeline.preprocessor is not None
-    
-import pandas as pd
-
-from src.pipeline.prediction_pipeline import CustomData
 
 
 def test_custom_data_to_dataframe():
@@ -42,10 +40,6 @@ def test_custom_data_to_dataframe():
 
     assert isinstance(df, pd.DataFrame)
     assert df.shape == (1, 22)
-from src.pipeline.prediction_pipeline import (
-    CustomData,
-    PredictPipeline,
-)
 
 
 def test_prediction_pipeline():

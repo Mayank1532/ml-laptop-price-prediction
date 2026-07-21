@@ -19,6 +19,4 @@ def predict(request: PredictionRequest):
 
     prediction = service.predict(data)
 
-    return PredictionResponse(
-        predicted_price=prediction
-    )
+    return PredictionResponse(predicted_price=prediction)

@@ -1,12 +1,11 @@
 from src.constants import (
-    TARGET_COLUMN,
-    RANDOM_STATE,
-    TEST_SIZE,
     CV_FOLDS,
     MODEL_FILE_NAME,
     PREPROCESSOR_FILE_NAME,
+    RANDOM_STATE,
+    TARGET_COLUMN,
+    TEST_SIZE,
 )
-
 from src.logger import logger
 
 

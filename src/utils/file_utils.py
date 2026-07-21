@@ -20,7 +20,7 @@ def create_directories(*directories: Path | str) -> None:
 
     except Exception as e:
         logger.exception("Error while creating directories.")
-        raise CustomException(e, sys)
+        raise CustomException(e, sys) from e
 
 
 def save_pickle(file_path: Path | str, obj: Any) -> None:
@@ -39,7 +39,7 @@ def save_pickle(file_path: Path | str, obj: Any) -> None:
 
     except Exception as e:
         logger.exception("Error while saving pickle file.")
-        raise CustomException(e, sys)
+        raise CustomException(e, sys) from e
 
 
 def load_pickle(file_path: Path | str) -> Any:
@@ -58,4 +58,4 @@ def load_pickle(file_path: Path | str) -> Any:
 
     except Exception as e:
         logger.exception("Error while loading pickle file.")
-        raise CustomException(e, sys)
+        raise CustomException(e, sys) from e

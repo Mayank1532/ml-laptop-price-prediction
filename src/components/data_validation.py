@@ -34,16 +34,10 @@ class DataValidation:
 
             logger.info("Checking required columns...")
 
-            missing_columns = [
-                col
-                for col in expected_columns
-                if col not in df.columns
-            ]
+            missing_columns = [col for col in expected_columns if col not in df.columns]
 
             if missing_columns:
-                raise ValueError(
-                    f"Missing columns: {missing_columns}"
-                )
+                raise ValueError(f"Missing columns: {missing_columns}")
 
             logger.info("Checking duplicate columns...")
 
@@ -53,9 +47,7 @@ class DataValidation:
             logger.info("Checking target column...")
 
             if TARGET_COLUMN not in df.columns:
-                raise ValueError(
-                    f"Target column '{TARGET_COLUMN}' missing."
-                )
+                raise ValueError(f"Target column '{TARGET_COLUMN}' missing.")
 
             logger.info("Data Validation Completed Successfully.")
             logger.info("=" * 60)
@@ -64,4 +56,4 @@ class DataValidation:
 
         except Exception as e:
             logger.exception("Data Validation Failed.")
-            raise CustomException(e, sys)
+            raise CustomException(e, sys) from e

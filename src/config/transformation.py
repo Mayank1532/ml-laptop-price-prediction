@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from pathlib import Path
 
-from .paths import MODEL_DIR, RAW_DATA_DIR
 from src.constants import RANDOM_STATE, TEST_SIZE
+
+from .paths import MODEL_DIR, RAW_DATA_DIR
 
 
 @dataclass(frozen=True)

@@ -26,9 +26,7 @@ class DataIngestion:
             logger.info(f"Checking dataset: {source_file}")
 
             if not source_file.exists():
-                raise FileNotFoundError(
-                    f"Dataset not found: {source_file}"
-                )
+                raise FileNotFoundError(f"Dataset not found: {source_file}")
 
             create_directories(self.config.raw_data_dir)
 
@@ -39,9 +37,7 @@ class DataIngestion:
                 self.config.raw_data_path,
             )
 
-            logger.info(
-                f"Dataset copied successfully to: {self.config.raw_data_path}"
-            )
+            logger.info(f"Dataset copied successfully to: {self.config.raw_data_path}")
 
             logger.info("Data Ingestion Completed Successfully")
             logger.info("=" * 60)
@@ -50,4 +46,4 @@ class DataIngestion:
 
         except Exception as e:
             logger.exception("Error occurred during Data Ingestion.")
-            raise CustomException(e, sys)
+            raise CustomException(e, sys) from e
