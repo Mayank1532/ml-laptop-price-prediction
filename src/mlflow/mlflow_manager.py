@@ -1,10 +1,8 @@
-import mlflow.sklearn
-
 import mlflow
+import mlflow.sklearn
 
 
 class MLflowManager:
-
     def __init__(self, experiment_name: str):
         mlflow.set_experiment(experiment_name)
 

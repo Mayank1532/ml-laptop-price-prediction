@@ -13,7 +13,6 @@ from src.utils import load_pickle
 
 
 class PredictPipeline:
-
     def __init__(self):
         try:
             logger.info("Loading trained model...")

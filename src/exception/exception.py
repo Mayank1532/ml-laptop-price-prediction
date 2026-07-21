@@ -1,5 +1,5 @@
-import sys
 from types import ModuleType
+
 
 def error_message_detail(error, error_detail: ModuleType):
     """

@@ -3,7 +3,6 @@ from src.logger import logger
 
 
 def test_data_validation():
-
     logger.info("=" * 60)
     logger.info("Starting Data Validation Test")
 

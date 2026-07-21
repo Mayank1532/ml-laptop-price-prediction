@@ -10,14 +10,11 @@ from src.utils import read_yaml
 
 
 class DataValidation:
-
     def __init__(self):
         self.config = DataValidationConfig()
 
     def validate(self) -> bool:
-
         try:
-
             logger.info("=" * 60)
             logger.info("Starting Data Validation")
 

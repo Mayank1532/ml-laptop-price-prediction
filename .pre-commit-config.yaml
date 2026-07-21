@@ -1,0 +1,24 @@
+repos:
+  # ---------------------------------------------------------
+  # Ruff Linter
+  # ---------------------------------------------------------
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.10
+    hooks:
+      - id: ruff
+        args:
+          - --fix
+
+      - id: ruff-format
+
+  # ---------------------------------------------------------
+  # mypy (Run using Poetry environment)
+  # ---------------------------------------------------------
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: poetry run mypy .
+        language: system
+        pass_filenames: false
+        types: [python]

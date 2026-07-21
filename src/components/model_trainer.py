@@ -1,9 +1,7 @@
 import sys
 from typing import Any
 
-import mlflow.sklearn
 import pandas as pd
-from mlflow.models import infer_signature
 from sklearn.ensemble import (
     GradientBoostingRegressor,
     RandomForestRegressor,
@@ -21,6 +19,8 @@ from sklearn.metrics import (
 from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeRegressor
 
+import mlflow.sklearn
+from mlflow.models import infer_signature
 from src.config import ModelTrainerConfig
 from src.entity import (
     DataTransformationArtifact,
@@ -123,9 +123,7 @@ class ModelTrainer:
         """
 
         try:
-
             if not parameter_grid:
-
                 logger.info(
                     "No hyperparameters defined for %s.",
                     model.__class__.__name__,
@@ -196,7 +194,6 @@ class ModelTrainer:
             parameter_grids = self._get_model_params()
 
             for model_name, model in models.items():
-
                 logger.info("=" * 80)
                 logger.info("Training %s", model_name)
 
@@ -260,7 +257,6 @@ class ModelTrainer:
         """
 
         try:
-
             logger.info("Selecting best model...")
 
             best_model_name = max(
@@ -311,7 +307,6 @@ class ModelTrainer:
         """
 
         try:
-
             logger.info(
                 "Saving model to %s",
                 self.config.trained_model_path,
@@ -341,7 +336,6 @@ class ModelTrainer:
         """
 
         try:
-
             logger.info("=" * 100)
             logger.info("Starting Model Trainer Pipeline")
             logger.info("=" * 100)
@@ -402,8 +396,6 @@ class ModelTrainer:
             mlflow_manager = MLflowManager("Laptop Price Prediction")
 
             with mlflow_manager.start_run(run_name=best_model_name):
-                
-
                 mlflow_manager.log_params(
                     {
                         "model": best_model_name,
